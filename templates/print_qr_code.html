@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+{% block title %}Print QR Code{% endblock %}
+{% block pagecontent %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Print QR Code</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{{ url_for('home_page') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Print QR Code</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="mb-0">
+                    Auto-generation of data by detecting Object in the conveyor belt.
+                </p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <!-- Left Column - Text Fields -->
+            <div class="col-md-6">
+                <div class="card mb-4" style="border: none;">
+                    <div class="card-body">
+                        <form action="/print_qr_code" method="post">
+                            <div class="row mb-3">
+
+                                <div class="col-md-10">
+                                    {% with messages = get_flashed_messages(with_categories=true) %}
+                                    {% if messages %}
+                                    {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}" role="alert">
+                                        {{ message }}
+                                        <span class="closebtnalert" onclick="this.parentElement.style.display='none';">&times;</span>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    {% endwith %}
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="crate_id" name="crate_id"
+                                               type="text"
+                                               placeholder="Enter Crate Id" value="{{ data[0]['crate_id'] }}"/>
+                                        <label for="crate_id">Crate Id</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="customer_id" name="customer_id"
+                                               type="text"
+                                               placeholder="Enter Customer Id" value="{{ data[0]['customer_id'] }}"/>
+                                        <label for="customer_id">Customer Id</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="customer_name"
+                                               name="customer_name"
+                                               type="text"
+                                               placeholder="Enter Customer Name"
+                                               value="{{ data[0]['customer_name'] }}"/>
+                                        <label for="customer_name">Customer Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="delivery_address"
+                                               name="delivery_address"
+                                               type="text"
+                                               placeholder="Delivery Address"
+                                               value="{{ data[0]['delivery_address'] }}"/>
+                                        <label for="delivery_address">Delivery Address</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="delivery_city"
+                                               name="delivery_city"
+                                               type="text"
+                                               placeholder="Delivery City" value="{{ data[0]['city'] }}"/>
+                                        <label for="delivery_city">Delivery City</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="state" name="state"
+                                               type="text"
+                                               placeholder="State" value="{{ data[0]['state'] }}"/>
+                                        <label for="state">State</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="delivery_date"
+                                               name="delivery_date"
+                                               type="date"
+                                               placeholder="Delivery Date" value="{{ data[0]['delivery_date'] }}"/>
+                                        <label for="delivery_date">Delivery Date</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="delivery_time"
+                                               name="delivery_time"
+                                               type="time"
+                                               placeholder="Delivery Time" value="{{ data[0]['delivery_time'] }}"/>
+                                        <label for="delivery_time">Delivery Time</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="return_date" name="return_date"
+                                               type="date"
+                                               placeholder="Return Date" value="{{ data[0]['return_date'] }}"/>
+                                        <label for="return_date">Return Date</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="return_time" name="return_time"
+                                               type="time"
+                                               placeholder="Return Time" value="{{ data[0]['return_time'] }}"/>
+                                        <label for="return_time">Return Time</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="contents" name="contents"
+                                               type="text"
+                                               placeholder="Contents" value="{{ data[0]['contents'] }}"/>
+                                        <label for="contents">Contents</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="batch_order_number"
+                                               name="batch_order_number"
+                                               type="text"
+                                               placeholder="Batch/Order Number"
+                                               value="{{ data[0]['batch_order_number'] }}"/>
+                                        <label for="batch_order_number">Batch/Order Number</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="transportation_details"
+                                               name="transportation_details"
+                                               type="text"
+                                               placeholder="Transportation Details"
+                                               value="{{ data[0]['transportation_details'] }}"/>
+                                        <label for="transportation_details">Transportation Details</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="return_status"
+                                               name="return_status"
+                                               type="text"
+                                               placeholder="Return Status" value="{{ data[0]['return_status'] }}"/>
+                                        <label for="return_status">Return Status</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="qr_code_generation_date"
+                                               name="qr_code_generation_date"
+                                               type="date"
+                                               placeholder="QR Code Generation Date"
+                                               value="{{ data[0]['qr_code_generation_date'] }}"/>
+                                        <label for="qr_code_generation_date">QR Code Generation Date</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="additional_notes"
+                                               name="additional_notes"
+                                               type="text"
+                                               placeholder="Additional Notes"
+                                               value="{{ data[0]['additional_notes'] }}"/>
+                                        <label for="additional_notes">Additional Notes</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="temperature" name="temperature"
+                                               type="text"
+                                               placeholder="Temperature" value="{{ data[0]['temperature'] }}"/>
+                                        <label for="temperature">Temperature</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="weight" name="weight"
+                                               type="text"
+                                               placeholder="Weight" value="{{ data[0]['weight'] }}"/>
+                                        <label for="weight">Weight</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="expiration_date"
+                                               name="expiration_date"
+                                               type="date"
+                                               placeholder="Expiration Date" value="{{ data[0]['expiration_date'] }}"/>
+                                        <label for="expiration_date">Expiration Date</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="handling_instructions"
+                                               name="handling_instructions"
+                                               type="text"
+                                               placeholder="Handling Instructions"
+                                               value="{{ data[0]['handling_instructions'] }}"/>
+                                        <label for="handling_instructions">Handling Instructions</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="shipment_status"
+                                               name="shipment_status"
+                                               type="text"
+                                               placeholder="Shipment Status" value="{{ data[0]['shipment_status'] }}"/>
+                                        <label for="shipment_status">Shipment Status</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="company_name"
+                                               name="company_name"
+                                               type="text"
+                                               placeholder="Company Name" value="{{ data[0]['company_name'] }}"/>
+                                        <label for="company_name">Company Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-floating mb-3">
+                                        <input required="true" class="form-control" id="creation_date"
+                                               name="creation_date"
+                                               type="date"
+                                               placeholder="Creation Date" value="{{ data[0]['creation_date'] }}"/>
+                                        <label for="creation_date">Creation Date</label>
+                                    </div>
+                                </div>
+
+                                <!-- Add other text fields similarly -->
+                            </div>
+
+                            <!-- Add more rows for other text fields -->
+
+                            <div class="row mb-3">
+                                <div class="col-md-10">
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary btn-block">Print QR Code</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Scan QR-Code -->
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body" style="border: none;">
+                        <div class="form-floating mb-3">
+                            <ul style="list-style: none; padding: 0;">
+                                <!-- Added style to remove list style and padding -->
+                                <li>
+                                    <img class="rounded img-thumbnail"
+                                         src="data:image/png;base64,{{ qr_code_data|safe }}" width="350"
+                                         height="330" style="border: none;"/> <!-- Added style to remove the border -->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock %}
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+{% endblock %}

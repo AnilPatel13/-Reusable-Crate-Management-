@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Crate Tracking{% endblock %}
+{% block pagecontent %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Crate Tracking</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{{ url_for('home_page') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Crate Tracking</li>
+        </ol>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                DataTable for Crate Tracking
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th style="text-align: center;">Crate Id</th>
+                        <th style="text-align: center;">Customer Name</th>
+                        <th style="text-align: center;">Company Name</th>
+                        <th style="text-align: center;">City</th>
+                        <th style="text-align: center;">State</th>
+                        <th style="text-align: center;">Return Date</th>
+                        <th style="text-align: center;">Contents</th>
+                        <th style="text-align: center;">Transportation Details</th>
+                        <th style="text-align: center;">Shipment Status</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for st_data in data_fetch %}
+                    <tr>
+                        <td>{{st_data.crate_id}}</td>
+                        <td>{{st_data.customer_name}}</td>
+                        <td>{{st_data.company_name}}</td>
+                        <td>{{st_data.city}}</td>
+                        <td>{{st_data.state}}</td>
+                        <td>{{st_data.return_date}}</td>
+                        <td>{{st_data.contents}}</td>
+                        <td>{{st_data.transportation_details}}</td>
+                        <td>{{st_data.shipment_status}}</td>
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="{{url_for('static',filename='js/scripts.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="{{url_for('static',filename='js/datatables-simple-demo.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block pagecontent %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Dashboard</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Summary of All Crate Assets</li>
+        </ol>
+        <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-primary text-white mb-4" style="--bs-bg-opacity: .8;">
+                    <div class="card-body" style="text-align:center">Total Crate</div>
+                    <div class="card-footer" style="text-align:center">15000</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-warning text-white mb-4" style="--bs-bg-opacity: .8;">
+                    <div class="card-body" style="text-align:center">Total Crate Retired</div>
+                    <div class="card-footer" style="text-align:center">1</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-success text-white mb-4" style="--bs-bg-opacity: .8;">
+                    <div class="card-body" style="text-align:center">Total Crate Request</div>
+                    <div class="card-footer" style="text-align:center">2</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-danger text-white mb-4" style="--bs-bg-opacity: .8;">
+                    <div class="card-body" style="text-align:center">Total Support Request</div>
+                    <div class="card-footer" style="text-align:center">3</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-info text-white mb-4" style="--bs-bg-opacity: .8;">
+                    <div class="card-body" style="text-align:center;">Total Sockroom</div>
+                    <div class="card-footer" style="text-align:center;">4</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-area me-1"></i>
+                        Crate Request In 7 days
+                    </div>
+                    <div class="card-body">
+                        <canvas id="myAreaChart" width="100%" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        Total Crate Request Fulfilled In Year
+                    </div>
+                    <div class="card-body">
+                        <canvas id="myBarChart" width="100%" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie me-1"></i>
+                        Stockroom Management
+                    </div>
+                    <div class="card-body">
+                        <canvas id="myPieChart" width="100%" height="50"></canvas>
+                    </div>
+                    <!--                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fa-solid fa-circle-notch"></i>
+                        Crate Request Vs Retired Crate
+                    </div>
+                    <div class="card-body">
+                        <canvas id="myRadarChart" width="100%" height="50"></canvas>
+                    </div>
+                    <!--                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</main>
+{% endblock %}
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="{{url_for('static',filename='js/scripts.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script>
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+var ctx = document.getElementById("myAreaChart");
+var myLineChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+<!--    labels: {{ areaMapLabels | safe }},-->
+    labels: ["2023-11-30", "2023-12-01", "2023-12-02", "2023-12-03", "2023-12-04", "2023-12-05", "2023-12-06"],
+    datasets: [{
+      label: "Request",
+      lineTension: 0.3,
+      backgroundColor: "rgba(2,117,216,0.2)",
+      borderColor: "rgba(2,117,216,1)",
+      pointRadius: 5,
+      pointBackgroundColor: "rgba(2,117,216,1)",
+      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(2,117,216,1)",
+      pointHitRadius: 50,
+      pointBorderWidth: 2,
+<!--      data: {{ areaMapValue | safe }},-->
+      data: [10000, 30162, 26263, 18394, 18287, 28682, 31274],
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'date'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 7,
+          maxRotation: 30,
+          minRotation: 30
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 40000,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          color: "rgba(0, 0, 0, .125)",
+          display: false,
+          drawBorder: false
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+
+</script>
+
+<script>
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+// Bar Chart Example
+var ctx = document.getElementById("myBarChart");
+var myLineChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+<!--      labels: {{ barGraphLabels | safe }},-->
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+    datasets: [{
+      label: "Request Fulfillment",
+      backgroundColor: "rgba(2,117,216,1)",
+      borderColor: "rgba(2,117,216,1)",
+<!--      data: {{ barGraphValue | safe }},-->
+      data: [4215, 5312, 6251, 7841, 9821, 14984, 4215, 5312, 6251, 7841, 9821, 14984],
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 12,
+          maxRotation: 70,
+          minRotation: 70
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+<!--          max: {{ requestFulfillmentCount }},-->
+          max: 40000,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          display: false,
+          drawBorder: false
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+
+</script>
+
+<script>
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+// Function to generate random data
+function generateRandomData(length) {
+  var data = [];
+  for (var i = 0; i < length; i++) {
+    data.push(Math.floor(Math.random() * 100) + 1); // Generating random values between 1 and 100
+  }
+  return data;
+}
+
+// Pie Chart Example
+var ctx = document.getElementById("myPieChart");
+var myPieChart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: ['Stockroom 1', 'Stockroom 2', 'Stockroom 3', 'Stockroom 4'],
+    datasets: [{
+      data: generateRandomData(4), // Adjust the length based on the number of labels
+      backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745', "#8250C4","#5ECBC8",
+      "#438FFF","#FF977E","#EB5757","#5B2071","#EC5A96","#A43B76","#73B761","#FF69B4","#98FB98"],
+    }],
+  },
+});
+</script>
+
+<script>
+// Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+// Function to generate random data
+function generateRandomData(length) {
+  var data = [];
+  for (var i = 0; i < length; i++) {
+    data.push(Math.floor(Math.random() * 100) + 1); // Generating random values between 1 and 100
+  }
+  return data;
+}
+
+// Radar Chart Example
+var ctx = document.getElementById("myRadarChart");
+var myRadarChart = new Chart(ctx, {
+  type: 'radar',
+  data: {
+    labels: ["2023-11-30", "2023-12-01", "2023-12-02", "2023-12-03", "2023-12-04", "2023-12-05", "2023-12-06"],
+    datasets: [
+      {
+        label: 'Crate Request',
+        data: generateRandomData(5), // Adjust the length based on the number of labels
+        backgroundColor: "rgba(255, 99, 132,0.5)",
+        borderColor: "rgba(255, 99, 132,1)",
+        borderWidth: 1
+      },
+      {
+        label: 'Retired Crate',
+        data: generateRandomData(2), // Adjust the length based on the number of labels
+        backgroundColor: "rgba(54, 162, 235,0.5)",
+        borderColor: "rgba(54, 162, 235,1)",
+        borderWidth: 1
+      }
+    ]
+  },
+});
+</script>
+
+<!--<script src="{{url_for('static',filename='assets/demo/chart-area-demo.js')}}"></script>-->
+<!--<script src="{{url_for('static',filename='assets/demo/chart-bar-demo.js')}}"></script>-->
+<!--<script src="{{url_for('static',filename='assets/demo/chart-pie-demo.js')}}"></script>-->
+<!--<script src="{{url_for('static',filename='assets/demo/chart-radar-demo.js')}}"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="{{url_for('static',filename='js/datatables-simple-demo.js')}}"></script>
+{% endblock %}
